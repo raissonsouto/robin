@@ -23,3 +23,7 @@ By default, Robin generates requests to a target URL specified in the main.go fi
 ## Requirements
 
 Robin requires Go version 1.16 or later.
+
+## Acknowledge
+
+- [maverickNerd/wordslists](https://github.com/maverickNerd/wordlists)

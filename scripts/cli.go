@@ -34,21 +34,14 @@ func initCli() {
 	}
 
 	// Check required flag
-	if urlFlag == "" {
+	if urlFlag == "" || routines == 0 || maxSize == 0 {
 		printErrorUrlNotSpecified()
 		os.Exit(1)
 	}
 
 	// Print configuration
 	if !detach {
-		fmt.Println("Starting URL fuzzer with the following configuration:")
-		fmt.Printf("  Base URL: %s\n", urlFlag)
-		fmt.Printf("  Concurrent requests: %d\n", routines)
-		fmt.Printf("  Maximum response size: %d bytes\n", maxSize)
-		fmt.Printf("  Smooth progress bar: %v\n", smooth)
-		fmt.Printf("  Silent mode: %v\n", silent)
-		fmt.Printf("  Join URL: %s\n", joinRaid)
-		fmt.Println()
+		fmt.Print("")
 	}
 
 }

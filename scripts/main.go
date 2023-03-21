@@ -13,6 +13,8 @@ const pathSize = 10
 
 func main() {
 
+	initCli()
+
 	workBalancer := workBalancer(validChars, qtdRoutines)
 
 	for i := 0; i < qtdRoutines; i++ {
