@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 )
 
 func testUrl(url string, path string) {
@@ -21,17 +22,32 @@ func testUrl(url string, path string) {
 		}
 	}(resp.Body)
 
-	if resp.StatusCode == 200 { //200, 204, 301, 302, 400, 401, 403, 405, 500
-		fmt.Printf("Found path: %s\n", path)
-	} else if resp.StatusCode == 204 {
+	validStatusCodes := []int{200, 204, 301, 302}
+	var log string
 
-	} else if resp.StatusCode == 2 {
+	if inSlice(resp.StatusCode, validStatusCodes) {
+		log = logSuccessfulGuess(path, url, resp.StatusCode)
+	}
 
-	} else if resp.StatusCode == 200 {
-
+	erro := appendToFile(log, "")
+	if erro != nil {
+		return
 	}
 }
 
-func writeS() {
+func appendToFile(text string, filename string) error {
+	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	if err != nil {
+		printErrorFileNotFound()
+		return err
+	}
+	defer file.Close()
 
+	_, err = file.WriteString(text)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

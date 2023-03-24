@@ -29,3 +29,12 @@ func printErrorURLNotFound() {
 func printErrorMaxSizeToSmall() {
 	fmt.Println("Error: The maxSize should be >= 1.")
 }
+
+func printErrorFileNotFound() {
+	fmt.Println("Error: The path or file name specified not found or created.")
+}
+
+func logSuccessfulGuess(path string, url string, httpResponse int) string {
+	row := string(rune(httpResponse)) + "," + url + "," + path + "\n"
+	return row
+}
