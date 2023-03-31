@@ -1,4 +1,4 @@
-package scripts
+package src
 
 import (
 	"flag"
@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func initCli() (string, int, int, bool) {
+func InitCli() (string, int, int, bool) {
 
 	var (
 		routines        int
@@ -33,8 +33,13 @@ func initCli() (string, int, int, bool) {
 
 	args := flag.Args()
 
-	if len(args) != 1 {
+	if len(args) < 1 {
 		printErrorUrlNotSpecified()
+		os.Exit(1)
+	}
+
+	if len(args) > 1 {
+		fmt.Println("Mais parametros que esperado")
 		os.Exit(1)
 	}
 

@@ -1,4 +1,4 @@
-package scripts
+package src
 
 import (
 	"fmt"
@@ -22,17 +22,27 @@ func testUrl(url string, path string) {
 		}
 	}(resp.Body)
 
-	validStatusCodes := []int{200, 204, 301, 302}
+	validStatusCodes := []int{200, 204, 301, 302, 401, 500}
 	var log string
 
-	if inSlice(resp.StatusCode, validStatusCodes) {
+	if containsInt(resp.StatusCode, validStatusCodes) {
 		log = logSuccessfulGuess(path, url, resp.StatusCode)
 	}
 
-	erro := appendToFile(log, "")
-	if erro != nil {
+	err = appendToFile(log, "")
+	if err != nil {
 		return
 	}
+}
+
+func containsInt(intNum int, intList []int) bool {
+	for _, validInt := range intList {
+		if validInt == intNum {
+			return true
+		}
+	}
+
+	return false
 }
 
 func appendToFile(text string, filename string) error {

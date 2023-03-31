@@ -1,10 +1,10 @@
-package scripts
+package src
 
 import (
 	"strings"
 )
 
-func fuzz(url string, initialString string, maxSize int, alphabet string) {
+func Fuzz(url string, initialString string, maxSize int, alphabet string) {
 
 	exponent := maxSize - len(initialString)
 	alphabetLength := len(alphabet)
@@ -23,6 +23,8 @@ func fuzz(url string, initialString string, maxSize int, alphabet string) {
 		token = getCombination(alphabet, indexArray)
 		testUrl(url, token)
 	}
+
+	defer Wg.Done()
 }
 
 func getCombination(alphabet string, indexArray []int) string {

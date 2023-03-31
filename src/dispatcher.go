@@ -1,10 +1,10 @@
-package scripts
+package src
 
 import (
 	"math"
 )
 
-func workBalancer(alphabet string, routines int) chan string {
+func WorkBalancer(alphabet string, routines int) chan string {
 
 	exponent := 1
 	alphabetSize := len(alphabet)

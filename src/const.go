@@ -1,21 +1,26 @@
-package scripts
+package src
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
+
+var Wg sync.WaitGroup
 
 const lower = "abcdefghijklmnopqrstuvwxyz"
 const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const numeric = "0123456789"
 const special = "-._~:/[]@!$&'()*+,;="
 
-const validChars = lower + upper + numeric + special
+const ValidChars = lower + upper + numeric + special
 
-func printInitialMessage() {
+func printInitialMessage(url string, routines int, s int) {
 	fmt.Println("")
 	fmt.Println("STARTING ROBIN FUZZING")
 	fmt.Println("")
-	fmt.Println("url:")
-	fmt.Println("routines quantity:")
-	fmt.Println("guess max size:")
+	fmt.Println("url: " + url)
+	fmt.Println("routines quantity: " + string(rune(routines)))
+	fmt.Println("guess max size: " + string(rune(s)))
 }
 
 func printErrorUrlNotSpecified() {
