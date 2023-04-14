@@ -4,27 +4,29 @@ import (
 	"strings"
 )
 
-func Fuzz(url string, initialString string, maxSize int, alphabet string) {
+func Fuzz(url string, exponent int) {
 
-	exponent := maxSize - len(initialString)
-	alphabetLength := len(alphabet)
+	var combination string
+	lastTry, indexArray := setup(exponent)
 
-	var token string
-	var lastTry string
-	var indexArray = make([]int, exponent)
-
-	for i := 0; i < exponent; i++ {
-		indexArray[i] = -1
-		lastTry += string(alphabet[alphabetLength-1])
-	}
-
-	for lastTry != token {
-		rotate(indexArray, alphabetLength)
-		token = getCombination(alphabet, indexArray)
-		testUrl(url, token)
+	for lastTry != combination {
+		rotate(indexArray)
+		combination = getCombination(alphabet, indexArray)
+		testUrl(url, combination)
 	}
 
 	defer Wg.Done()
+}
+
+func loop(exponent int) { // funcs ...interface{}
+
+	var combination string
+	lastTry, indexArray := setup(exponent)
+
+	for lastTry != combination {
+		rotate(indexArray)
+		combination = getCombination(alphabet, indexArray)
+	}
 }
 
 func getCombination(alphabet string, indexArray []int) string {
@@ -41,7 +43,7 @@ func getCombination(alphabet string, indexArray []int) string {
 	return result.String()
 }
 
-func rotate(indexArray []int, alphabetLength int) {
+func rotate(indexArray []int) {
 
 	indexArray[0]++
 
@@ -52,4 +54,16 @@ func rotate(indexArray []int, alphabetLength int) {
 			indexArray[index+1]++
 		}
 	}
+}
+
+func setup(exponent int) (string, []int) {
+	var lastTry string
+	var indexArray = make([]int, exponent)
+
+	for i := 0; i < exponent; i++ {
+		indexArray[i] = -1
+		lastTry += string(alphabet[alphabetLength-1])
+	}
+
+	return lastTry, indexArray
 }

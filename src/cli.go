@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func InitCli() (string, int, int, bool) {
+func InitCli() (string, int, int, bool, bool, bool) {
 
 	var (
 		routines        int
@@ -43,13 +43,15 @@ func InitCli() (string, int, int, bool) {
 		os.Exit(1)
 	}
 
+	setAlphabet("")
+
 	urlFlag := args[0]
 
 	if detach {
 		fmt.Print("")
 	}
 
-	return urlFlag, routines, maxRequestSize, smooth
+	return urlFlag, routines, maxRequestSize, smooth, detach, commonPathsOnly
 }
 
 /*func StartDetachedProcess(cmd string, args []string, uid, gid int) error {
