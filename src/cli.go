@@ -2,23 +2,13 @@ package src
 
 import (
 	"flag"
-	"fmt"
 	"os"
 )
 
-func InitCli() (string, int, int, bool, bool, bool) {
+func InitCli() {
 
-	var (
-		routines        int
-		maxRequestSize  int
-		smooth          bool
-		detach          bool
-		commonPathsOnly bool
-		help            bool
-	)
-
-	flag.IntVar(&routines, "r", 50, "Number of concurrent requests to make")
-	flag.IntVar(&maxRequestSize, "m", 10, "Set the maximum size of the request tested")
+	flag.IntVar(&QtdRoutines, "r", 50, "Number of concurrent requests to make")
+	flag.IntVar(&maxGuessSize, "m", 10, "Set the maximum size of the request tested")
 	flag.BoolVar(&smooth, "s", false, "Enable smooth request rate by adding a delay between requests")
 	flag.BoolVar(&detach, "d", false, "Detaches the output to a file and releases the terminal")
 	flag.BoolVar(&commonPathsOnly, "c", false, "Limit search to common paths in the words list")
@@ -38,20 +28,9 @@ func InitCli() (string, int, int, bool, bool, bool) {
 		os.Exit(1)
 	}
 
-	if len(args) > 1 {
-		fmt.Println("Mais parametros que esperado")
-		os.Exit(1)
-	}
-
 	setAlphabet("")
 
-	urlFlag := args[0]
-
-	if detach {
-		fmt.Print("")
-	}
-
-	return urlFlag, routines, maxRequestSize, smooth, detach, commonPathsOnly
+	targetUrl = args[0]
 }
 
 /*func StartDetachedProcess(cmd string, args []string, uid, gid int) error {

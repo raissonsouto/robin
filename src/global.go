@@ -7,6 +7,18 @@ import (
 
 var Wg sync.WaitGroup
 
+var targetUrl string
+var QtdRoutines int
+var deltaGuessSize int
+var maxGuessSize int
+var smooth, detach, commonPathsOnly, help bool
+
+var prefixChan = make(chan string, 1)
+
+const outputFile = "paths.txt"
+
+var validStatusCodes = []int{200, 204, 301, 302, 401, 500}
+
 const lower = "abcdefghijklmnopqrstuvwxyz"
 const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const numeric = "0123456789"
@@ -45,13 +57,11 @@ func setAlphabet(regex string) {
 	alphabetLength = len(alphabet)
 }
 
-func printInitialMessage(url string, routines int, s int) {
-	fmt.Println("")
-	fmt.Println("STARTING ROBIN FUZZING")
-	fmt.Println("")
-	fmt.Println("url: " + url)
-	fmt.Println("routines quantity: " + string(rune(routines)))
-	fmt.Println("guess max size: " + string(rune(s)))
+func PrintInitialMessage() {
+	fmt.Println("\nSTARTING ROBIN FUZZING")
+	fmt.Println("\n| url: " + targetUrl)
+	fmt.Printf("| routines quantity: %v\n", QtdRoutines)
+	fmt.Printf("| guess max size: %v\n", maxGuessSize)
 }
 
 func printErrorUrlNotSpecified() {

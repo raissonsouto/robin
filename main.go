@@ -7,16 +7,16 @@ import (
 
 func main() {
 
-	url, qtdRoutines, pathSize, _, _, _ := src.InitCli()
-	var initialString string
+	src.InitCli()
+	src.PrintInitialMessage()
 
-	prefixChan := src.GetPrefixes(qtdRoutines)
+	src.Wg.Add(1)
+	go src.AlphabetGenerator()
 
-	for i := 0; i < qtdRoutines; i++ {
-		initialString = <-prefixChan
-
+	for i := 0; i < src.QtdRoutines; i++ {
 		src.Wg.Add(1)
-		exponent := pathSize - len(initialString)
-		go src.Fuzz(url, exponent)
+		go src.Fuzz()
 	}
+
+	src.Wg.Wait()
 }

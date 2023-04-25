@@ -1,35 +1,28 @@
 package src
 
 import (
+	"fmt"
 	"strings"
 )
 
-func Fuzz(url string, exponent int) {
-
-	var combination string
-	lastTry, indexArray := setup(exponent)
-
-	for lastTry != combination {
-		rotate(indexArray)
-		combination = getCombination(alphabet, indexArray)
-		testUrl(url, combination)
-	}
-
+func Fuzz() {
 	defer Wg.Done()
-}
-
-func loop(exponent int) { // funcs ...interface{}
 
 	var combination string
-	lastTry, indexArray := setup(exponent)
+	lastTry, indexArray := setup(deltaGuessSize)
+
+	teste := <-prefixChan
+	fmt.Println(teste)
 
 	for lastTry != combination {
 		rotate(indexArray)
-		combination = getCombination(alphabet, indexArray)
+		combination = getCombination(indexArray)
+		fmt.Println(combination)
+		//testUrl(combination)
 	}
 }
 
-func getCombination(alphabet string, indexArray []int) string {
+func getCombination(indexArray []int) string {
 	var result strings.Builder
 
 	for _, index := range indexArray {
